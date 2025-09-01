@@ -16,14 +16,18 @@ const checkoutBtn = document.getElementById('checkout-btn');
 const clearCartBtn = document.getElementById('clear-cart');
 const loginBtn = document.querySelector('.login-btn');
 
-
-
+// Inicializar la aplicación
+document.addEventListener('DOMContentLoaded', async function() {
+    await cargarProductos();
+    mostrarProductos();
+    actualizarCarrito();
+    
     // TODO: Agregar event listeners para los botones
     // PISTA: checkoutBtn necesita un evento 'click' que llame a una función para procesar el pago
     // PISTA: clearCartBtn necesita un evento 'click' que llame a mostrarModalVaciarCarrito()
     // PISTA: loginBtn necesita un evento 'click' que llame a mostrarModalLogin()
     // NOTA: Las funciones de modales ya están implementadas al final del archivo
-
+});
 
 // Función para cargar productos desde JSON
 async function cargarProductos() {
