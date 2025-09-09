@@ -46,13 +46,32 @@ function getApiBase() {
 function getLoginPath() {
     if (window.APP_CONFIG && window.APP_CONFIG.LOGIN_PATH) return window.APP_CONFIG.LOGIN_PATH;
     return '/auth/login';
-}
-
-function acceder(){
+};
+function IniciarSesion(email, password) {
+    const apiBase = getApiBase();
+    const url = base.replace('/auth/login', getLoginPath());
+    return fetch(url), {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'}
+        body: JSON.stringify({email, password})
+    }};
+    if (!response.ok) {
+    console.log("error en la respuesta", response)
+};
+const data = await response.json();
+auth.token = data.token;
+auth.user = data.user;
+async function acceder(){
 const email = document.getElementById('email').value;
 const password = document.getElementById('password').value;
 console.log("datos de acceso", email, password);
-};
+try {
+    await IniciarSesion(email, password);
+    mostrarMensaje('Inicio de sesión exitoso');
+} catch (error) {
+    console.error('Error en inicio de sesión:', error);
+    
+}};
 
 // Función para cargar productos desde JSON
 async function cargarProductos() {
