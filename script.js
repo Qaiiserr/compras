@@ -32,16 +32,22 @@ document.addEventListener('DOMContentLoaded', async function() {
     clearCartBtn.addEventListener('click', mostrarModalVaciarCarrito);
     actualizarBotonLogin();
     // PISTA: loginBtn necesita un evento 'click' que llame a mostrarModalLogin()
-    loginBtn.addEventListener('click', onClickLogin);
+    loginBtn.addEventListener('click', mostrarModalLogin);
     
     
     
     // NOTA: Las funciones de modales ya están implementadas al final del archivo
 });
-function getApiBase(){
-    return 'https://api.kaizen.com'; 
-    
-};
+function getApiBase() {
+    if (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL) return window.APP_CONFIG.API_BASE_URL;
+    return '';
+}
+
+function getLoginPath() {
+    if (window.APP_CONFIG && window.APP_CONFIG.LOGIN_PATH) return window.APP_CONFIG.LOGIN_PATH;
+    return '/auth/login';
+}
+
 function acceder(){
 const email = document.getElementById('email').value;
 const password = document.getElementById('password').value;
