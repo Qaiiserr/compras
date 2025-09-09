@@ -15,19 +15,38 @@ const totalAmount = document.getElementById('total-amount');
 const checkoutBtn = document.getElementById('checkout-btn');
 const clearCartBtn = document.getElementById('clear-cart');
 const loginBtn = document.querySelector('.login-btn');
+const auth = {
+    token: null,
+    user: null
+};
 
 // Inicializar la aplicación
 document.addEventListener('DOMContentLoaded', async function() {
     await cargarProductos();
-    mostrarProductos();
+     mostrarProductos();
     actualizarCarrito();
-    
     // TODO: Agregar event listeners para los botones
-    // PISTA: checkoutBtn necesita un evento 'click' que llame a una función para procesar el pago
+     // PISTA: checkoutBtn necesita un evento 'click' que llame a una función para procesar el pago
+    checkoutBtn.addEventListener('click', procederPago);
     // PISTA: clearCartBtn necesita un evento 'click' que llame a mostrarModalVaciarCarrito()
+    clearCartBtn.addEventListener('click', mostrarModalVaciarCarrito);
+    actualizarBotonLogin();
     // PISTA: loginBtn necesita un evento 'click' que llame a mostrarModalLogin()
+    loginBtn.addEventListener('click', onClickLogin);
+    
+    
+    
     // NOTA: Las funciones de modales ya están implementadas al final del archivo
 });
+function getApiBase(){
+    return 'https://api.kaizen.com'; 
+    
+};
+function acceder(){
+const email = document.getElementById('email').value;
+const password = document.getElementById('password').value;
+console.log("datos de acceso", email, password);
+};
 
 // Función para cargar productos desde JSON
 async function cargarProductos() {
@@ -377,7 +396,7 @@ function mostrarModalVaciarCarrito() {
 function mostrarModalLogin() {
     mostrarModal({
         icono: '👤',
-        titulo: 'Iniciar Sesión',
+        titulo:'Iniciar Sesión',
         mensaje: 'Funcionalidad de login en desarrollo.\n\nPronto podrás:\n• Guardar tu carrito\n• Ver historial de compras\n• Gestionar tus datos\n• Recibir ofertas exclusivas',
         textoConfirmar: 'Entendido',
         textoCancel: '',
