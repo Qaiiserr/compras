@@ -2,9 +2,9 @@
     {
         "id": 1,
         "nombre": "Laptop",
-        "precio": 9999999.99,
+        "precio": 499.99,
         "descripcion": "Laptop básica para uso diario",
-        "imagen": "💻"
+        "imagen": "Screenshot_1.png"
     },
     {
         "id": 2,
