@@ -1,3 +1,13 @@
+const LOGIN_URL = 'https://xp8qpg8w-3000.brs.devtunnels.ms/auth/login';
+const ER_URL = 'https://xp8qpg8w-3000.brs.devtunnels.ms/auth/register';
+const TS_URL = 'https://xp8qpg8w-3000.brs.devtunnels.ms/products';
+const PRODUCTO = 'https://xp8qpg8w-3000.brs.devtunnels.ms/products';
+const ODUCTO = 'https://xp8qpg8w-3000.brs.devtunnels.ms/products/:id';
+
+const ICONO_PRODUCTO = {};
+let vistaActual = 'productos';
+async function LoginUsuario(email, password) {};
+
 // Array de productos disponibles (se cargará desde JSON)
 let productos = [];
 
