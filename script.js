@@ -30,7 +30,12 @@ document.addEventListener('DOMContentLoaded', async function() {
     checkoutBtn.addEventListener('click', procederPago);
     // PISTA: clearCartBtn necesita un evento 'click' que llame a mostrarModalVaciarCarrito()
     clearCartBtn.addEventListener('click', mostrarModalVaciarCarrito);
-    actualizarBotonLogin();
+    actualizarBotonLogin(){
+        const btn = document.getElementById("btnLogin");
+    btn.disabled = true;
+    btn.textContent = "Iniciando sesión...";
+
+    };
     // PISTA: loginBtn necesita un evento 'click' que llame a mostrarModalLogin()
     loginBtn.addEventListener('click', mostrarModalLogin);
     
@@ -47,18 +52,25 @@ function getLoginPath() {
     if (window.APP_CONFIG && window.APP_CONFIG.LOGIN_PATH) return window.APP_CONFIG.LOGIN_PATH;
     return '/auth/login';
 };
-function IniciarSesion(email, password) {
+async function IniciarSesion(email, password) {
     const apiBase = getApiBase();
-    const url = base.replace('/auth/login', getLoginPath());
-    return fetch(url), {
+    const url = apiBase.replace('/auth/login', getLoginPath());
+
+    const response = await fetch(url, {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'}
-        body: JSON.stringify({email, password})
-    }};
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+    });
+
     if (!response.ok) {
-    console.log("error en la respuesta", response)
+        console.log("Error en la respuesta", response);
+        return null;
+    }
+
+    const data = await response.json();
+    return data;
 };
-const data = await response.json();
+
 auth.token = data.token;
 auth.user = data.user;
 async function acceder(){
@@ -340,7 +352,7 @@ function mostrarModal({ icono, titulo, mensaje, textoConfirmar, textoCancel, onC
         }
     };
     document.addEventListener('keydown', handleEscape);
-}
+};
 
 // Función para cerrar modal
 function cerrarModal(overlay) {
