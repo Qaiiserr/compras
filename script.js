@@ -1,4 +1,7 @@
-const LOGIN_URL = 'https://xp8qpg8w-3000.brs.devtunnels.ms/auth/login';
+ checkoutBtn.addEventListener('click', procederPago);
+ clearCartBtn.addEventListener('click', mostrarModalVaciarCarrito);
+ loginBtn.addEventListener('click', mostrarModalLogin);
+ const LOGIN_URL = 'https://xp8qpg8w-3000.brs.devtunnels.ms/auth/login';
 const ER_URL = 'https://xp8qpg8w-3000.brs.devtunnels.ms/auth/register';
 const TS_URL = 'https://xp8qpg8w-3000.brs.devtunnels.ms/products';
 const PRODUCTO = 'https://xp8qpg8w-3000.brs.devtunnels.ms/products';
@@ -6,7 +9,7 @@ const ODUCTO = 'https://xp8qpg8w-3000.brs.devtunnels.ms/products/:id';
 
 const ICONO_PRODUCTO = {};
 let vistaActual = 'productos';
-async function LoginUsuario(email, password) {};
+async function LoginUsuario(email, password) {};       
 
 // Array de productos disponibles (se cargará desde JSON)
 let productos = [];
@@ -33,19 +36,8 @@ const auth = {
 // Inicializar la aplicación
 document.addEventListener('DOMContentLoaded', async function() {
     await cargarProductos();
-     mostrarProductos();
+    mostrarProductos();
     actualizarCarrito();
-    // TODO: Agregar event listeners para los botones
-     // PISTA: checkoutBtn necesita un evento 'click' que llame a una función para procesar el pago
-    checkoutBtn.addEventListener('click', procederPago);
-    // PISTA: clearCartBtn necesita un evento 'click' que llame a mostrarModalVaciarCarrito()
-    clearCartBtn.addEventListener('click', mostrarModalVaciarCarrito);
-    actualizarBotonLogin(){
-        const btn = document.getElementById("btnLogin");
-    btn.disabled = true;
-    btn.textContent = "Iniciando sesión...";
-
-    };
     // PISTA: loginBtn necesita un evento 'click' que llame a mostrarModalLogin()
     loginBtn.addEventListener('click', mostrarModalLogin);
     
@@ -57,11 +49,11 @@ function getApiBase() {
     if (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL) return window.APP_CONFIG.API_BASE_URL;
     return '';
 }
-
 function getLoginPath() {
     if (window.APP_CONFIG && window.APP_CONFIG.LOGIN_PATH) return window.APP_CONFIG.LOGIN_PATH;
     return '/auth/login';
 };
+
 async function IniciarSesion(email, password) {
     const apiBase = getApiBase();
     const url = apiBase.replace('/auth/login', getLoginPath());
@@ -73,27 +65,30 @@ async function IniciarSesion(email, password) {
     });
 
     if (!response.ok) {
-        console.log("Error en la respuesta", response);
+        console.error("Error en la respuesta", response);
         return null;
     }
 
     const data = await response.json();
+    auth.token = data.token;
+    auth.user = data.user;
     return data;
-};
+}
 
-auth.token = data.token;
-auth.user = data.user;
-async function acceder(){
-const email = document.getElementById('email').value;
-const password = document.getElementById('password').value;
-console.log("datos de acceso", email, password);
-try {
-    await IniciarSesion(email, password);
-    mostrarMensaje('Inicio de sesión exitoso');
-} catch (error) {
-    console.error('Error en inicio de sesión:', error);
-    
-}};
+async function acceder() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    console.log("datos de acceso", email, password);
+
+    try {
+        const userData = await IniciarSesion(email, password);
+        if (userData) {
+            mostrarMensaje('Inicio de sesión exitoso');
+        }
+    } catch (error) {
+        console.error('Error en inicio de sesión:', error);
+    }
+}
 
 // Función para cargar productos desde JSON
 async function cargarProductos() {
